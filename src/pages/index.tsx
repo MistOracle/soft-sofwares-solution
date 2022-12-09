@@ -1,3 +1,6 @@
+import { jwtVerify } from "jose";
+import Cookie from "js-cookie";
+import { useEffect } from 'react';
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Homepage from 'src/components/homepage'
@@ -5,6 +8,7 @@ import Keys from 'src/models/keys'
 import UserModel from 'src/models/user'
 import { Container } from 'src/styles/styled'
 import connectDB from 'src/utils/connectDb'
+import { useRouter } from "next/router";
 
 interface HomeProps{
   allUsers:{ email:string; password:string; _id:string; _v:number; token:string }[];
@@ -13,6 +17,31 @@ interface HomeProps{
 
 export default function Home({ allUsers,allKeys }:HomeProps) {
 
+const Router = useRouter();
+
+useEffect(()=>{
+  if(!Cookie.get("jwt"))
+  return;
+  
+  handleAuth()
+},[ ])
+
+const handleAuth = async()=>{
+    const token = Cookie.get("jwt") as string;
+
+    const secret = new TextEncoder().encode("simple-secret-not-simple");
+
+    try{
+
+    const { payload } = await jwtVerify(token,secret);
+    if(payload)
+    return Router.replace("/backend")
+
+    }catch(error:any){
+        if(error.code === "ERR_JWT_EXPIRED")
+        return Cookie.remove("jwt");
+    }
+}
   return (
     <Container>
       <Head>
@@ -48,7 +77,7 @@ export const getServerSideProps:GetServerSideProps = async()=>{
       }
 
   }catch(error:any){
-
+      console.log("CONNECTION_ERROR",error)
       return{
           notFound:true
       }

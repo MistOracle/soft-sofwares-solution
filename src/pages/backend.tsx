@@ -1,3 +1,4 @@
+import { jwtVerify } from "jose";
 import Cookie from "js-cookie";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -23,8 +24,27 @@ export default function Dashboard({ allKeys }:DashboardProps){
             Router.replace("/");
             return;
         }
-        setLoading(false);
+        handleAuth()
     },[ ])
+
+    const handleAuth = async()=>{
+        const token = Cookie.get("jwt") as string;
+
+        const secret = new TextEncoder().encode("simple-secret-not-simple");
+
+        try{
+
+        await jwtVerify(token,secret);
+
+        setLoading(false);
+
+        }catch(error:any){
+            if(error.code === "ERR_JWT_EXPIRED"){
+                Cookie.remove("jwt");
+                Router.replace("/");
+            }
+        }
+    }
 
     const handleNewKey = async()=>{
 
