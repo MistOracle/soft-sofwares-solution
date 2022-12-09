@@ -1,12 +1,12 @@
+import Cookie from "js-cookie";
 import { GetServerSideProps } from "next";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Backend from "src/components/backend";
 import Keys from "src/models/keys";
 import { Container, Title } from "src/styles/styled";
 import connectDB from "src/utils/connectDb";
 import { KeyGenerator } from "src/utils/KeyGenerator";
-import Cookie from "js-cookie";
-import { useEffect, useState } from "react";
 
 interface DashboardProps {
     allKeys:{ regKey:string;_id:string;url:string; }[]
