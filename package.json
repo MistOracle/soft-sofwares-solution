@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -H 0.0.0.0 -p ${PORT:-8080}"
   },
   "dependencies": {
     "@styled-icons/fluentui-system-filled": "^10.46.0",
