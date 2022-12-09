@@ -10,7 +10,7 @@ import connectDB from "src/utils/connectDb";
 import { KeyGenerator } from "src/utils/KeyGenerator";
 
 interface DashboardProps {
-    allKeys:{ regKey:string;_id:string;url:string; }[]
+    allKeys:{ regKey:string;_id:string;url:string;_v:string; }[]
 }
 
 export default function Dashboard({ allKeys }:DashboardProps){

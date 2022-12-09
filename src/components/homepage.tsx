@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 interface HomepageProps {
     allUsers:{ email:string; password:string; _id:string; _v:number, token:string }[];
-    allKeys:{ key:string; _id:string; _v:number }[];
+    allKeys:{ regKey:string;_id:string;url:string;_v:string; }[]
 }
 
 export default function Homepage({ allUsers,allKeys }:HomepageProps){
@@ -88,7 +88,7 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
         }
 
         if(isRegKey){
-            const isValidRegKey = allKeys.some(key=>key.key === accessKey);
+            const isValidRegKey = allKeys.some(obj=>obj.regKey === accessKey);
 
             if(!isValidRegKey)
             return setGlobalError("invalid registration key!")

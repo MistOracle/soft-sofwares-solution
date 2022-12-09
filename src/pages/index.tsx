@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 interface HomeProps{
   allUsers:{ email:string; password:string; _id:string; _v:number; token:string }[];
-  allKeys:{ key:string; _id:string; _v:number }[];
+  allKeys:{ regKey:string;_id:string;url:string;_v:string; }[]
 }
 
 export default function Home({ allUsers,allKeys }:HomeProps) {
