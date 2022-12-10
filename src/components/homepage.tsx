@@ -4,6 +4,7 @@ import CustomInput from "./Input2";
 import Cookie from "js-cookie";
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/router";
+import CircleLoader from "./CircleLoader";
 
 interface HomepageProps {
     allUsers:{ email:string; password:string; _id:string; _v:number, token:string }[];
@@ -17,6 +18,7 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
     const [password,setPassword] = useState<string>("");
     const [globalError,setGlobalError] = useState<string>("");
     const [successMessage,setSuccessMessage] = useState<string>("");
+    const [loading,setLoading] = useState<boolean>(false);
 
     const Router = useRouter();
 
@@ -28,12 +30,15 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
                 setGlobalError("");
                 setSuccessMessage("");
                 setPassword("");
+                setAccessKey("");
+                setLoading(false);
             },3000)
             return ()=>clearInterval(timer);
         }
     },[ globalError,successMessage ]);
 
     const handleLogin = async()=>{
+        setLoading(true);
         const isEmail = accessKey.includes("@") && accessKey.includes(".com");
         const isRegKey = accessKey.includes("HIG-");
         
@@ -159,14 +164,20 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
                         <Title align="center" size={ 3 } color="darkgreen">{ successMessage }</Title>
                     </Container>
 
-                    <Container 
-                        bgd={ theme } 
-                        p={ 2 } 
-                        br={ 10 }
-                        onClick={ handleLogin }
-                        button pointer centralize>
-                        <Title size="calc(20px + 2.5vw)"  color="lightgrey">Gain Access</Title>
-                    </Container>
+                    {
+                        loading?
+                        <Container centralize>
+                            <CircleLoader thick="calc(3px + 0.1vw)" size="calc(20px + 3.5vw)" bgd="grey" color={ theme as string } speed="0.5s" />
+                        </Container>:
+                        <Container 
+                            bgd={ theme } 
+                            p={ 2 } 
+                            br={ 10 }
+                            onClick={ handleLogin }
+                            button pointer centralize>
+                            <Title size="calc(20px + 2.5vw)"  color="lightgrey">Gain Access</Title>
+                        </Container>
+                    }
                 </Container>
             </Flex>
         </Container>
