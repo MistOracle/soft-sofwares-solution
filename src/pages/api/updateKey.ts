@@ -18,7 +18,7 @@ async function handler(
     optionsSuccessStatus:200
   });
 
-    const { regKey,url } = JSON.parse(req.body);
+  const { regKey,url } = typeof req.body === "string"?JSON.parse(req.body):req.body;
 
     try{
         console.log("CONNECTING TO DB");
