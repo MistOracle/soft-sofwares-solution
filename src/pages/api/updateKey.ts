@@ -17,7 +17,8 @@ async function handler(
     origin:"*",
     optionsSuccessStatus:200
   });
-
+  
+  console.log("req.body",req.body);
   const { regKey,url } = typeof req.body === "string"?JSON.parse(req.body):req.body;
 
     try{
@@ -26,8 +27,12 @@ async function handler(
         console.log("CONNECTED TO DB");
 
         const key = await Keys.findOne({ regKey });
+
         if(!key)
         return res.json({ success:false, error:"invalid regKey!"});
+
+        if(url.length && key.url)
+        return res.json({ success:false, error:"already registered key!"});
 
         console.log("CREATING DOCUMENT");
         const result = await Keys.updateOne({ regKey },{ regKey,url });
