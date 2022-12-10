@@ -29,10 +29,10 @@ async function handler(
         const key = await Keys.findOne({ regKey });
 
         if(!key)
-        return res.json({ success:false, error:"invalid regKey!"});
+        return res.json({ result:{ success:false, error:"invalid regKey!"} });
 
         if(url.length && key.url.length)
-        return res.json({ success:false, error:"already registered key!"});
+        return res.json({ result:{ success:false, error:"already registered key!"} });
 
         console.log("CREATING DOCUMENT");
         const result = await Keys.updateOne({ regKey },{ regKey,url });
