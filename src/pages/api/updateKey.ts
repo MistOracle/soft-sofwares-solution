@@ -18,7 +18,6 @@ async function handler(
     optionsSuccessStatus:200
   });
 
-  console.log("req.body",req.body);
   const { regKey,url } = typeof req.body === "string"?JSON.parse(req.body):req.body;
 
     try{
