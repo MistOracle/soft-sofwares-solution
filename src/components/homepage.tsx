@@ -40,7 +40,7 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
         }
     },[ globalError,successMessage ]);
 
-    // const LoggedInAsAdmin = async()=>{
+    // const LoggedInAsAdmin = async()=>{ 
 
     //     const token = jwt.sign(closet,"SECRET_D5KO0NB10P312UIQ180CG9",{ expiresIn:"6h" });
     //     Cookie.set("TOKEN_LIVO8NY7BQG",token);
