@@ -10,7 +10,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const { regKey,url } = JSON.parse(req.body);
+    const { regKey,url,accounts } = JSON.parse(req.body);
 
     try{
         console.log("CONNECTING TO DB");
@@ -18,7 +18,7 @@ async function handler(
         console.log("CONNECTED TO DB");
 
         console.log("CREATING DOCUMENT");
-        const result = await Keys.create({ regKey,url });
+        const result = await Keys.create({ regKey,url,accounts });
         console.log("CREATED DOCUMENT");
 
         res.json({ result });
@@ -26,6 +26,8 @@ async function handler(
     }catch(error:any){
       
         res.statusCode = 500;
+        
+        console.log("Err",error);
 
         if(error.code === 11000)
         return res.end(JSON.stringify({ message:"Key already exists!" }));

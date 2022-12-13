@@ -6,9 +6,12 @@ const keySchema = new Schema({
         required:true,
         unique:true
     },
+    accounts:{
+        type:Number,
+        required:true,
+    },
     url:{
-        type:String,
-        unique:true
+        type:String
     }
 });
 

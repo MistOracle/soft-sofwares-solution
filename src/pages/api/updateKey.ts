@@ -34,7 +34,7 @@ async function handler(
         return res.json({ result:{ success:false, error:"already registered key!"} });
 
         console.log("CREATING DOCUMENT");
-        const result = await Keys.updateOne({ regKey },{ regKey,url });
+        const result = await Keys.updateOne({ regKey },{ url });
         console.log("CREATED DOCUMENT");
 
         res.json({ result });

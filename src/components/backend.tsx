@@ -8,9 +8,10 @@ import { Container, Divider, Flex, Marginalize, Title } from "src/styles/styled"
 interface BackendProps {
     regkey:string;
     url:string;
+    accounts:number;
 }
 
-export default function Backend({ regkey,url }:BackendProps){
+export default function Backend({ regkey,url,accounts }:BackendProps){
 
     const theme = "teal";
     const [ details,setDetails ] = useState<boolean>(false);
@@ -68,6 +69,15 @@ export default function Backend({ regkey,url }:BackendProps){
                                     </Container>
                                     <Marginalize />
                                     <Title size={ 3.5 } color={ url.length?theme:"crimson" }>{ url.length?url:"offline" }</Title>
+                                </Flex>
+                            </Container>
+                            <Container maxW="75vw" mv={ 1.5 } br={ 2 } m="auto">
+                                <Flex fw align="center">
+                                    <Container p={ 0.7 } br={ 1.5 } bgd={ theme }>
+                                        <Title size={ 3.2 } color="lightgrey">Accounts</Title>
+                                    </Container>
+                                    <Marginalize />
+                                    <Title size={ 3.5 } color={ theme } bold>{ accounts }</Title>
                                 </Flex>
                             </Container>
                             <Container br={ 2 } bgd={ "crimson" } p={ 1 } display="flex" onClick={ handleReset } centralize button pointer>

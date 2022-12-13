@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import { Container, Divider, Flex, Title } from "src/styles/styled";
-import CustomInput from "./Input2";
-import Cookie from "js-cookie";
 import bcrypt from "bcryptjs";
+import Cookie from "js-cookie";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { Container, Flex, Title } from "src/styles/styled";
 import CircleLoader from "./CircleLoader";
+import CustomInput from "./Input2";
 
 interface HomepageProps {
     allUsers:{ email:string; password:string; _id:string; _v:number, token:string }[];
-    allKeys:{ regKey:string;_id:string;url:string;_v:string; }[]
+    allKeys:{ regKey:string;_id:string;url:string;accounts:number;_v:string; }[]
 }
 
 export default function Homepage({ allUsers,allKeys }:HomepageProps){
-    
+
     const theme = "teal";
     const [accessKey,setAccessKey] = useState<string>("");
     const [password,setPassword] = useState<string>("");
@@ -22,7 +22,10 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
 
     const Router = useRouter();
 
-    const clickRef = useRef<HTMLAnchorElement | null>(null);
+    const accountOne = useRef<HTMLAnchorElement | null>(null);
+    const accountTen = useRef<HTMLAnchorElement | null>(null);
+    const accountTwenty = useRef<HTMLAnchorElement | null>(null);
+    // const closet = { loginAsAdmin:true };
 
     useEffect(()=>{
         if(globalError.length || successMessage.length){
@@ -36,6 +39,19 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
             return ()=>clearInterval(timer);
         }
     },[ globalError,successMessage ]);
+
+    // const LoggedInAsAdmin = async()=>{
+
+    //     const token = jwt.sign(closet,"SECRET_D5KO0NB10P312UIQ180CG9",{ expiresIn:"6h" });
+    //     Cookie.set("TOKEN_LIVO8NY7BQG",token);
+
+    //     const cookieBlob = Cookie.get("TOKEN_LIVO8NY7BQG") as string;
+    //     const User = jwt.verify(cookieBlob,"SECRET_D5KO0NB10P312UIQ180CG9") as { loginAsAdmin:boolean; iat:number; exp:number; };
+
+    //     const loginAsAdmin = User.loginAsAdmin;
+    //     console.log("loginAsAdmin",loginAsAdmin);
+
+    // }
 
     const handleLogin = async()=>{
         setLoading(true);
@@ -93,13 +109,17 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
         }
 
         if(isRegKey){
-            const isValidRegKey = allKeys.some(obj=>obj.regKey === accessKey);
 
-            if(!isValidRegKey)
+            const keyCloset = allKeys.find(obj=>obj.regKey === accessKey);
+
+            if(!keyCloset)
             return setGlobalError("invalid registration key!")
 
-            clickRef.current?.click();
-            return;
+            keyCloset.accounts === 1 && accountOne.current?.click();
+            keyCloset.accounts === 10 && accountTen.current?.click();
+            keyCloset.accounts === 20 && accountTwenty.current?.click();
+
+            return setLoading(false);
 
         }
 
@@ -109,7 +129,9 @@ export default function Homepage({ allUsers,allKeys }:HomepageProps){
     return (
         <Container bgd="black" minH={ 100 } maxW="100vw" centralize>
             <Container display="none">
-                <a ref={ clickRef } href="/demo.zip" download="sendDBILL" />
+                <a ref={ accountOne } href="/software.zip" download="sendDBILL" />
+                <a ref={ accountTen } href="/software10.zip" download="sendTenBILL" />
+                <a ref={ accountTwenty } href="/software20.zip" download="sendTwentyBILL" />
             </Container>
             <Flex fw>
                 <Container br={ 10 } m="auto" w="calc(48vh + 20vw)" p={ 1 } shadow shadowColor={ theme }>
